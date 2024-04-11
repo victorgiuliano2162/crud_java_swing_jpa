@@ -1,4 +1,4 @@
-package org.crud.models;
+package src.org.crud.models;
 
 import lombok.Getter;
 import lombok.Setter;

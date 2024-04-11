@@ -1,6 +1,8 @@
-package org.crud.infra.dao;
+package src.org.crud.infra.dao;
 
-import org.crud.models.User;
+
+
+import src.org.crud.models.User;
 
 import javax.persistence.*;
 import java.util.Collection;

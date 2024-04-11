@@ -1,8 +1,8 @@
-package org.crud.swing;
+package src.org.crud.swing;
 
-import org.crud.infra.dao.IUserDAO;
-import org.crud.infra.dao.UserDAO;
-import org.crud.models.User;
+import src.org.crud.infra.dao.IUserDAO;
+import src.org.crud.infra.dao.UserDAO;
+import src.org.crud.models.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,8 +24,10 @@ public class Painel extends JPanel{
     public User tratarDados(String dados) {
         if(dados == null) startCrud(0);
         String[] dadosSeparados = dados.split(",");
-        if(dadosSeparados.length < 8 ) startCrud(2);
-        User user = new User();
+        if(dadosSeparados.length < 7 ) startCrud(2);
+
+        User user = new User(dadosSeparados[0],dadosSeparados[1],dadosSeparados[2],dadosSeparados[3],dadosSeparados[4],dadosSeparados[5],dadosSeparados[6]);
+        userDAO.cadastrar(user);
         return user;
     }
 
@@ -36,7 +38,7 @@ public class Painel extends JPanel{
         } else if(a == 0) {
             opcao = JOptionPane.showInputDialog(null,"Preencha os campos para efetuar o cadastro\nDigite: \n1 para cadastro \n2 para consulta \n3 para exclusão \n4 para alteração \n5 para sair","Cadastro", JOptionPane.INFORMATION_MESSAGE);
         } else if(a == 2) {
-            opcao = JOptionPane.showInputDialog(null,"Os campos em branco devem constar como um espaço em branco entre vírgulas\nDigite: \n1 para cadastro \n2 para consulta \n3 para exclusão \n4 para alteração \n5 para sair","Cadastro", JOptionPane.INFORMATION_MESSAGE);
+            opcao = JOptionPane.showInputDialog(null,"Os campos em branco devem constar como um espaço em branco entre vírgulas.\nDigite na ordem:\nnome, cpf, telefone, endereço, número, cidade, estado\nDigite: \n1 para cadastro \n2 para consulta \n3 para exclusão \n4 para alteração \n5 para sair","Cadastro", JOptionPane.INFORMATION_MESSAGE);
         }
 
         if(opcao.equals("1")){
