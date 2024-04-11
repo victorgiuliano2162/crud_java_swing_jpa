@@ -19,7 +19,7 @@ public class UserDAO<E> implements IUserDAO {
 
     static {
         try {
-            emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+            emf = Persistence.createEntityManagerFactory("crud_java_swing_jpa");
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }
