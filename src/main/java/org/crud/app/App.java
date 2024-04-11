@@ -1,2 +1,7 @@
-package org.crud.app;public class App {
+package org.crud.app;
+
+public class App {
+    public static void main(String[] args) {
+
+    }
 }

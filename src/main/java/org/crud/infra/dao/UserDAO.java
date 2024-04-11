@@ -1,16 +1,29 @@
-package org.crud.models;
+package org.crud.infra.dao;
 
+import org.crud.models.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserDAO implements IUserDAO{
-
-
+public class UserDAO<E> implements IUserDAO {
 
     private Map<Long, User> map;
 
+    private static EntityManagerFactory emf;
+    private static EntityManager em;
+    private Class<E> classe;
 
+    static {
+        try {
+            emf = Persistence.createEntityManagerFactory("exercicios-jpa");
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+    }
 
     public UserDAO() {
         this.map = new HashMap<>();

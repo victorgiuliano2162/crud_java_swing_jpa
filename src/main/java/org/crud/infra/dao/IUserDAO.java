@@ -1,5 +1,7 @@
-package org.crud.models;
+package org.crud.infra.dao;
 
+
+import org.crud.models.User;
 
 import java.util.Collection;
 
