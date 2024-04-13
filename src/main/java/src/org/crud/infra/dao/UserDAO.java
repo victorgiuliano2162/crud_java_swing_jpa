@@ -51,17 +51,11 @@ public class UserDAO<E> implements IUserDAO {
     }
 
     @Override
-    public boolean excluir(String cpf) {
-        User userCadastrado = this.map.get(cpf);
-        if(userCadastrado != null) {
-            this.map.remove(userCadastrado.getCpf(), userCadastrado);
-            em.remove(userCadastrado);
-            excluirAtomico(userCadastrado);
-            fechar();
-            return true;
-        }
-        fechar();
-        return false;
+    public void excluir(String cpf) {
+        User u = em.find(User.class, cpf);
+        abrirTransaction();
+        em.remove(u);
+        fecharTransaction();
     }
 
     @Override
@@ -123,6 +117,7 @@ public class UserDAO<E> implements IUserDAO {
 
     public void excluirAtomico(User u){
         abrirTransaction();
+        em.find(User.class, u);
         em.remove(u);
         fecharTransaction();
     }
