@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class UserDAO<E> implements IUserDAO {
 
-    private Map<Long, User> map;
+    public Map<String, User> map;
 
     private static EntityManagerFactory emf;
     private static EntityManager em;
@@ -20,13 +20,16 @@ public class UserDAO<E> implements IUserDAO {
     static {
         try {
             emf = Persistence.createEntityManagerFactory("crud_java_swing_jpa");
+            em = emf.createEntityManager();
         } catch (Exception e) {
             e.getStackTrace();
         }
     }
 
-    public void getMap() {
-        this.map = new HashMap<>();
+    public void creatMap() {
+            if (map == null) {
+            map = new HashMap<>();
+        }
     }
 
     @Override
@@ -48,13 +51,17 @@ public class UserDAO<E> implements IUserDAO {
     }
 
     @Override
-    public void excluir(Long cpf) {
+    public boolean excluir(String cpf) {
         User userCadastrado = this.map.get(cpf);
         if(userCadastrado != null) {
             this.map.remove(userCadastrado.getCpf(), userCadastrado);
+            em.remove(userCadastrado);
             excluirAtomico(userCadastrado);
+            fechar();
+            return true;
         }
         fechar();
+        return false;
     }
 
     @Override
@@ -76,7 +83,7 @@ public class UserDAO<E> implements IUserDAO {
     }
 
     @Override
-    public User consultar(Long cpf) {
+    public User consultar(String cpf) {
         if(obterPorID(cpf) != null) {
         return this.map.get(cpf);
         }
@@ -107,7 +114,7 @@ public class UserDAO<E> implements IUserDAO {
         return this.abrirTransaction().incluir(e).fecharTransaction();
     }
 
-    public User obterPorID(Long cpf){
+    public User obterPorID(String cpf){
         if(em.find(User.class, cpf) != null){
         return em.find(User.class, cpf);
         }
