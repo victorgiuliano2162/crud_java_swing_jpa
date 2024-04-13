@@ -10,7 +10,7 @@ public interface IUserDAO {
     public Boolean cadastrar(User u);
     public User consultar(String cpf);
     public void alterar(User c);
-    public boolean excluir(String cpf);
+    public void excluir(String cpf);
     public Collection<User> buscarTodos();
 }
 
