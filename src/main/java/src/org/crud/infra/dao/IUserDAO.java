@@ -8,9 +8,9 @@ import java.util.Collection;
 public interface IUserDAO {
 
     public Boolean cadastrar(User u);
-    public User consultar(Long cpf);
+    public User consultar(String cpf);
     public void alterar(User c);
-    public void excluir(Long cpf);
+    public boolean excluir(String cpf);
     public Collection<User> buscarTodos();
 }
 
