@@ -13,7 +13,7 @@ public class User {
 
     @Id
     @Getter @Setter
-    private Long cpf;
+    private String cpf;
 
     @Getter @Setter
     @Column(name = "user_name", nullable = false, length = 200)
@@ -43,7 +43,7 @@ public class User {
 
     public User(String nome, String cpf, String tel, String end, String numero, String cidade, String estado) {
         this.nome = nome;
-        this.cpf = Long.valueOf(cpf.trim().replaceAll("[^\\d.]", ""));
+        this.cpf = cpf.trim().replaceAll("[^\\d.]", "");
         this.tel = Long.valueOf(tel.trim().replaceAll("[^\\d.]", ""));
         this.end = end;
         this.numero = Integer.valueOf(numero.trim().replaceAll("[^\\d.]", ""));
