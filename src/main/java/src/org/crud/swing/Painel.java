@@ -39,15 +39,12 @@ public class Painel extends JPanel{
     }
 
     //Não está funcionando, talvez o problema esteja relacionado a tipagem do map
-    public String excluirUsuário(String s) {
+    public void excluirUsuário(String s) {
         if(s == null || "".equals(s)) startCrud(0);
         s.trim().replaceAll("[^\\d.]", "");
-        if(userDAO.excluir(s)) {
-            return "Usuário excluído com sucesso";
-        } else {
-            return "Impossível excluir usuário";
-        }
+        userDAO.excluir(s);
     }
+
     public User consultarUsuario(String s) {
         s.trim().replaceAll("[^\\d.]", "");
         if(userDAO.obterPorID(s) == null) {
