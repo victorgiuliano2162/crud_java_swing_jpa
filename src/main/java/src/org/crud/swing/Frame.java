@@ -9,7 +9,7 @@ public class Frame extends JFrame {
         this.setTitle("Crud Java Swing");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
-        this.pack();;
+        this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }
