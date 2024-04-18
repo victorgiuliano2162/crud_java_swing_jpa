@@ -28,7 +28,7 @@ public class Painel extends JPanel{
         return false;
     }
 
-    public User tratarDados(String dados) {
+    public User tratarDadosECadastrarUsuario(String dados) {
         if(dados == null) startCrud(0);
         String[] dadosSeparados = dados.split(",");
         if(dadosSeparados.length < 7 ) startCrud(2);
@@ -48,7 +48,7 @@ public class Painel extends JPanel{
     public User consultarUsuario(String s) {
         s.trim().replaceAll("[^\\d.]", "");
         if(userDAO.obterPorID(s) == null) {
-            startCrud(3);
+            //startCrud(3);
             return null;
         }
         return userDAO.obterPorID(s);
@@ -83,14 +83,21 @@ public class Painel extends JPanel{
 
         if(opcao.equals("1")){
             String dados = JOptionPane.showInputDialog(null, "Digite os dados do cliente separados por vírgula, na seguinte ordem: nome, cpf, telefone, endereço, número, cidade, estado", "Cadastrar usuário", JOptionPane.INFORMATION_MESSAGE);
-            tratarDados(dados);
+            User u = tratarDadosECadastrarUsuario(dados);
+            if(u != null) {
+                dados =  JOptionPane.showInputDialog(null, "Usuário cadastrado com sucesso.\nDigite: \n1 -> para retornar ao menu\n2 -> para sair do aplicativo", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
+                if(dados.equals("1")) startCrud(1);
+                if(dados.equals("2")) startCrud(5);
+            }
+
         } else if(opcao.equals("2")){
             //consultar
             String dados = JOptionPane.showInputDialog(null, "Digite o cpf do usuário", "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
             if (consultarUsuario(dados) == null) {
                 JOptionPane.showMessageDialog(null, "Usuário não encontrado", "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
             } else if (consultarUsuario(dados) != null) {
-                JOptionPane.showMessageDialog(null, "Usuário cadastrado", "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Usuário cadastrado" + userDAO.toString(), "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
+
             }
         } else if(opcao.equals("3")){
             //excluir
@@ -98,6 +105,16 @@ public class Painel extends JPanel{
             excluirUsuário(dados);
         } else if(opcao.equals("4")){
             //alterar
+            String dados = JOptionPane.showInputDialog(null, "Digite o cpf do usuário para modificar os dados", "Alteração de dados de usuario", JOptionPane.INFORMATION_MESSAGE);
+            if (consultarUsuario(dados) == null) {
+                dados = JOptionPane.showInputDialog(null, "Usuário não encontrado.\nDigite:\n1 -> para retornar ao menu\n2 -> para adicionar um novo usuário.", "Alteração de dados de usuario", JOptionPane.INFORMATION_MESSAGE);
+                if("1".equals(dados)) startCrud(1);
+                if("2".equals(dados)) startCrud(0);
+            } else if (consultarUsuario(dados) != null) {
+                excluirUsuário(dados);
+                dados = JOptionPane.showInputDialog(null, "Digite os dados do novo usuário", "Alteração de dados de usuario", JOptionPane.INFORMATION_MESSAGE);
+                tratarDadosECadastrarUsuario(dados);
+            }
         } else if(opcao.equals("5")){
             //sair
             System.exit(0);

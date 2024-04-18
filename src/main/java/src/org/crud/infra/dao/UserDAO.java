@@ -58,6 +58,7 @@ public class UserDAO<E> implements IUserDAO {
         fecharTransaction();
     }
 
+
     @Override
     public void alterar(User u) {
         abrirTransaction();
