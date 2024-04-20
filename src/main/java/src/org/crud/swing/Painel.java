@@ -39,7 +39,8 @@ public class Painel extends JPanel{
     }
 
     //Não está funcionando, talvez o problema esteja relacionado a tipagem do map
-    public void excluirUsuário(String s) {
+    //Problem solved :D
+    public void excluirUsuario(String s) {
         if(s == null || "".equals(s)) startCrud(0);
         s.trim().replaceAll("[^\\d.]", "");
         userDAO.excluir(s);
@@ -102,7 +103,7 @@ public class Painel extends JPanel{
         } else if(opcao.equals("3")){
             //excluir
             String dados = JOptionPane.showInputDialog(null, "Digite o cpf do usuário que deseja excluir", "Exclusão de usuario", JOptionPane.INFORMATION_MESSAGE);
-            excluirUsuário(dados);
+            excluirUsuario(dados);
         } else if(opcao.equals("4")){
             //alterar
             String dados = JOptionPane.showInputDialog(null, "Digite o cpf do usuário para modificar os dados", "Alteração de dados de usuario", JOptionPane.INFORMATION_MESSAGE);
@@ -111,7 +112,7 @@ public class Painel extends JPanel{
                 if("1".equals(dados)) startCrud(1);
                 if("2".equals(dados)) startCrud(0);
             } else if (consultarUsuario(dados) != null) {
-                excluirUsuário(dados);
+                excluirUsuario(dados);
                 dados = JOptionPane.showInputDialog(null, "Digite os dados do novo usuário", "Alteração de dados de usuario", JOptionPane.INFORMATION_MESSAGE);
                 tratarDadosECadastrarUsuario(dados);
             }
