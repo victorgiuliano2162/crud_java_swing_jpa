@@ -9,12 +9,12 @@ import java.awt.*;
 
 public class Painel extends JPanel{
 
-    //static final int SCREEN_WIDTH = 800;
-    //static final int SCREEN_HEIGHT = 600;
+    static final int SCREEN_WIDTH = 800;
+    static final int SCREEN_HEIGHT = 600;
     UserDAO userDAO = new UserDAO();
 
     public Painel(){
-        //this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.blue);
         this.setFocusable(true);
 
@@ -32,8 +32,9 @@ public class Painel extends JPanel{
         if(dados == null) startCrud(0);
         String[] dadosSeparados = dados.split(",");
         if(dadosSeparados.length < 7 ) startCrud(2);
+        String cpfTratado = dadosSeparados[1].trim().replaceAll("[^0-9]", "");
 
-        User user = new User(dadosSeparados[0],dadosSeparados[1],dadosSeparados[2],dadosSeparados[3],dadosSeparados[4],dadosSeparados[5],dadosSeparados[6]);
+        User user = new User(dadosSeparados[0],cpfTratado,dadosSeparados[2],dadosSeparados[3],dadosSeparados[4],dadosSeparados[5],dadosSeparados[6]);
         userDAO.cadastrar(user);
         return user;
     }
@@ -47,12 +48,12 @@ public class Painel extends JPanel{
     }
 
     public User consultarUsuario(String s) {
-        s.trim().replaceAll("[^\\d.]", "");
-        if(userDAO.obterPorID(s) == null) {
+        String sTratado = s.trim().replaceAll("[^0-9]", "");
+        if(userDAO.obterPorID(sTratado) == null) {
             //startCrud(3);
             return null;
         }
-        return userDAO.obterPorID(s);
+        return userDAO.obterPorID(sTratado);
     }
 
     public void startCrud(int a) {
@@ -64,12 +65,10 @@ public class Painel extends JPanel{
         } else if(a == 2) {
             opcao = JOptionPane.showInputDialog(null,"Os campos em branco devem constar como um espaço em branco entre vírgulas.\nDigite na ordem:\nnome, cpf, telefone, endereço, número, cidade, estado\nDigite: \n1 para cadastro \n2 para consulta \n3 para exclusão \n4 para alteração \n5 para sair","Cadastro", JOptionPane.INFORMATION_MESSAGE);
         } else if(a == 3) {
-            String consulta = JOptionPane.showInputDialog(null,"Usuário não encontrado no sistema","Consultar usuário\nDeseja fazer outra consultar?\n1 - Sim\n2 - Não", JOptionPane.INFORMATION_MESSAGE);
-            if(consulta.equals("1")) {
-                opcao = "2";
-            } else if(consulta.equals("2")) {
-                opcao = "5";
-            }
+            String consulta = JOptionPane.showInputDialog(null,"Consultar usuário\nDeseja fazer outra consultar?\n1 - Sim\n2 - Voltar ao início\n3 - Sair do programa","Usuário não encontrado no sistema", JOptionPane.INFORMATION_MESSAGE);
+            if(consulta.equals("1")) opcao = "2";
+            if(consulta.equals("2")) opcao = "1";
+            if(consulta.equals("3")) opcao = "5";
         } else if(a == 4) {
             //exclusao
         } else if(a == 5) {
@@ -83,6 +82,7 @@ public class Painel extends JPanel{
         }
 
         if(opcao.equals("1")){
+            //cadastrar
             String dados = JOptionPane.showInputDialog(null, "Digite os dados do cliente separados por vírgula, na seguinte ordem: nome, cpf, telefone, endereço, número, cidade, estado", "Cadastrar usuário", JOptionPane.INFORMATION_MESSAGE);
             User u = tratarDadosECadastrarUsuario(dados);
             if(u != null) {
@@ -95,10 +95,10 @@ public class Painel extends JPanel{
             //consultar
             String dados = JOptionPane.showInputDialog(null, "Digite o cpf do usuário", "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
             if (consultarUsuario(dados) == null) {
-                JOptionPane.showMessageDialog(null, "Usuário não encontrado", "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
+                dados = null;
+                startCrud(3);
             } else if (consultarUsuario(dados) != null) {
-                JOptionPane.showMessageDialog(null, "Usuário cadastrado" + userDAO.toString(), "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
-
+                JOptionPane.showMessageDialog(null, "Usuário cadastrado\n"+ consultarUsuario(dados).toString() + userDAO.toString(), "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
             }
         } else if(opcao.equals("3")){
             //excluir
