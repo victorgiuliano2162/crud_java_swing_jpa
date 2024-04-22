@@ -43,7 +43,7 @@ public class User {
 
     public User(String nome, String cpf, String tel, String end, String numero, String cidade, String estado) {
         this.nome = nome;
-        this.cpf = cpf.trim().replaceAll("[^\\d.]", "");
+        this.cpf = cpf;
         this.tel = Long.valueOf(tel.trim().replaceAll("[^\\d.]", ""));
         this.end = end;
         this.numero = Integer.valueOf(numero.trim().replaceAll("[^\\d.]", ""));
@@ -64,5 +64,8 @@ public class User {
         return Objects.equals(cpf, user.cpf);
     }
 
-    
+    @Override
+    public String toString() {
+        return "User: " + nome + "\n" + cpf;
+    }
 }
