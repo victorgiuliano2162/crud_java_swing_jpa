@@ -37,14 +37,14 @@ public class UserDAO<E> implements IUserDAO {
         abrirTransaction();
         if(this.map.containsKey(u.getCpf())){
             //Alterar pra JOptionPane
-            System.out.println("Usuário já cadastrado");
-            //Pensar na possibilidade de criar uma método que verifique as operação e retorne strings informado o estado das operações
+            //System.out.println("Usuário já cadastrado");
+            //Pensar na possibilidade de criar um método que verifique as operação e retorne strings informado o estado das operações
             fechar();
             return false;
         }
         this.map.put(u.getCpf(), u);
-        //Alterar pra JOptionPane
-        System.out.println("Usuário cadastrado com sucesso");
+        //Alterar para JOptionPane
+        //System.out.println("Usuário cadastrado com sucesso");
         incluir((E) u);
         fecharTransaction();
         return true;
