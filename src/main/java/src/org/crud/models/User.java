@@ -1,6 +1,7 @@
 package src.org.crud.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -38,8 +40,6 @@ public class User {
     @Getter @Setter
     @Column(name = "user_state", nullable = false, length = 200)
     private String estado;
-
-    public User(){}
 
     public User(String nome, String cpf, String tel, String end, String numero, String cidade, String estado) {
         this.nome = nome;
