@@ -1,19 +1,26 @@
-package src.org.crud.swing;
+package org.crud.swing;
 
 
-import src.org.crud.infra.dao.UserDAO;
-import src.org.crud.models.User;
+import org.crud.infra.dao.UserDAO;
+import org.crud.models.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
-public class Painel extends JPanel{
+
+public class Painel extends Panel{
 
     static final int SCREEN_WIDTH = 800;
     static final int SCREEN_HEIGHT = 600;
     UserDAO userDAO = new UserDAO();
 
     public Painel(){
+        this.setVisible(true);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.blue);
         this.setFocusable(true);
@@ -24,7 +31,8 @@ public class Painel extends JPanel{
     }
 
     public boolean isOpcaoValida(String opcao){
-        if("1".equals(opcao) || "2".equals(opcao) || "3".equals(opcao) || "4".equals(opcao) || "5".equals(opcao)) return true;
+        if("1".equals(opcao) || "2".equals(opcao) || "3".equals(opcao) || "4".equals(opcao) || "5".equals(opcao) ||
+                "6".equals(opcao)) return true;
         return false;
     }
 
@@ -54,6 +62,28 @@ public class Painel extends JPanel{
             return null;
         }
         return userDAO.obterPorID(sTratado);
+    }
+
+    public List<String> consultarTodos() {
+        List<String> users= new ArrayList<>();
+        List <User> usersDoBanco = userDAO.buscarTodos();
+
+        for (User u : usersDoBanco) {
+            String tel = String.valueOf(u.getTel());
+            String num = String.valueOf(u.getNumero());
+            User emUso = new User(u.getNome(), u.getCpf(), tel, u.getEnd(), num, u.getCidade(), u.getEstado());
+            System.out.println(u.getNome());
+            users.add("\n"+emUso.toString());
+        }
+        return users;
+    }
+
+    //Implementar depois
+    public List<String> userTratado() {
+        List<String> usersName =consultarTodos();
+        Consumer<User> nome = n -> n.toString();
+        UnaryOperator<String> nomeCerto = nom -> (nom.toString());
+        return null;
     }
 
     public void startCrud(int a) {
@@ -98,7 +128,8 @@ public class Painel extends JPanel{
                 dados = null;
                 startCrud(3);
             } else if (consultarUsuario(dados) != null) {
-                JOptionPane.showMessageDialog(null, "Usuário cadastrado\n"+ consultarUsuario(dados).toString() + userDAO.toString(), "Consultar usuario", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Usuário cadastrado\n" + userDAO.toString(), "Consultar usuario",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         } else if(opcao.equals("3")){
             //excluir
@@ -112,13 +143,23 @@ public class Painel extends JPanel{
                 if("1".equals(dados)) startCrud(1);
                 if("2".equals(dados)) startCrud(0);
             } else if (consultarUsuario(dados) != null) {
-                excluirUsuario(dados);
-                dados = JOptionPane.showInputDialog(null, "Digite os dados do novo usuário", "Alteração de dados de usuario", JOptionPane.INFORMATION_MESSAGE);
-                tratarDadosECadastrarUsuario(dados);
+                try{
+                String novoUsuário = JOptionPane.showInputDialog(null, "Digite os dados do novo usuário",
+                        "Alteração de dados de usuario", JOptionPane.INFORMATION_MESSAGE);
+                tratarDadosECadastrarUsuario(novoUsuário);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    excluirUsuario(dados);
+                }
             }
         } else if(opcao.equals("5")){
             //sair
             System.exit(0);
+        } else if(opcao.equals("6")) {
+            JOptionPane.showMessageDialog(null,
+                    "Lista dos usuários cadastrados: \n" + consultarTodos(),
+                    "Usuários cadastrados",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }
