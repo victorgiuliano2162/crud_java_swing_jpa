@@ -1,6 +1,6 @@
-package src.org.crud.app;
+package org.crud.app;
 
-import src.org.crud.swing.Painel;
+import org.crud.swing.Painel;
 
 public class App {
     public static void main(String[] args) {

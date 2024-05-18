@@ -1,4 +1,4 @@
-package src.org.crud.swing;
+package org.crud.swing;
 
 import javax.swing.*;
 
