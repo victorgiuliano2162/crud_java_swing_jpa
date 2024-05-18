@@ -1,4 +1,4 @@
-package src.org.crud.models;
+package org.crud.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,6 +66,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User: " + nome + "\n" + cpf;
+        return "User: " + nome + "\n" +"Id: "+ cpf +"\n";
     }
 }
