@@ -73,7 +73,7 @@ public class Painel extends Panel{
             String num = String.valueOf(u.getNumero());
             User emUso = new User(u.getNome(), u.getCpf(), tel, u.getEnd(), num, u.getCidade(), u.getEstado());
             System.out.println(u.getNome());
-            users.add("\n"+emUso.toString());
+            users.add("\n"+emUso.getNome().trim());
         }
         return users;
     }
