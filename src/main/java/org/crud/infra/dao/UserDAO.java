@@ -104,6 +104,11 @@ public class UserDAO<E> implements IUserDAO {
         }
     }
 
+    public List buscarTodosCel() {
+        Query cel = em.createQuery("select a.tel from User a");
+        return cel.getResultList();
+    }
+
     public UserDAO<E> abrirTransaction() {
         em.getTransaction().begin();
         return this;
